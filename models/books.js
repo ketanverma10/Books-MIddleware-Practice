@@ -1,0 +1,22 @@
+exports.books=[
+  { "id": 1, "book_name": "Pride and Prejudice", "book_author": "Jane Austen" },
+  { "id": 2, "book_name": "To Kill a Mockingbird", "book_author": "Harper Lee" },
+  { "id": 3, "book_name": "The Great Gatsby", "book_author": "F. Scott Fitzgerald" },
+  { "id": 4, "book_name": "One Hundred Years of Solitude", "book_author": "Gabriel García Márquez" },
+  { "id": 5, "book_name": "1984", "book_author": "George Orwell" },
+  { "id": 6, "book_name": "Brave New World", "book_author": "Aldous Huxley" },
+  { "id": 7, "book_name": "Crime and Punishment", "book_author": "Fyodor Dostoevsky" },
+  { "id": 8, "book_name": "Jane Eyre", "book_author": "Charlotte Brontë" },
+  { "id": 9, "book_name": "The Catcher in the Rye", "book_author": "J.D. Salinger" },
+  { "id": 10, "book_name": "Moby-Dick", "book_author": "Herman Melville" },
+  { "id": 11, "book_name": "War and Peace", "book_author": "Leo Tolstoy" },
+  { "id": 12, "book_name": "Anna Karenina", "book_author": "Leo Tolstoy" },
+  { "id": 13, "book_name": "The Adventures of Huckleberry Finn", "book_author": "Mark Twain" },
+  { "id": 14, "book_name": "The Hobbit", "book_author": "J.R.R. Tolkien" },
+  { "id": 15, "book_name": "The Lord of the Rings", "book_author": "J.R.R. Tolkien" },
+  { "id": 16, "book_name": "A Tale of Two Cities", "book_author": "Charles Dickens" },
+  { "id": 17, "book_name": "Great Expectations", "book_author": "Charles Dickens" },
+  { "id": 18, "book_name": "Anna and the King of Siam", "book_author": "Marguerite of Angoulême" },
+  { "id": 19, "book_name": "The Brothers Karamazov", "book_author": "Fyodor Dostoevsky" },
+  { "id": 20, "book_name": "Beloved", "book_author": "Toni Morrison" }
+]
