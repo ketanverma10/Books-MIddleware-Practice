@@ -1,8 +1,10 @@
-const {books} = require('./books.model');
-const {authors} = require('./author.model');
+const bookTable = require('./books.model');
+const authorTable = require('./author.model');
+
+console.log(bookTable,authorTable);
 
 module.exports = {
-    books,
-    authors
+    bookTable,
+    authorTable,
 }
 
