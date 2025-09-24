@@ -1,38 +1,73 @@
-const books = require('../models/books.js').books;
+const books = require('../models/books.model.js');
+const db = require('../db/index.js');
+const { eq } = require('drizzle-orm');  
+const { validate: isUuid } = require("uuid");
 
-exports.getAllBooks = function(req, res)  {
-    res.json(books);
+
+exports.getAllBooks =  async function(req, res)  {
+   try{
+    const allBooks = await db.select().from(books);
+    res.json(allBooks);
+   }
+   catch(err){
+    res.status(500).json({ error: "Internal Server Error" });
+   }
+    
 };
 
-exports.getBookById = function(req, res)  {
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ error: "Invalid book ID" });
+exports.getBookById = async function(req, res)  {
+    try{
+    const id = req.params.id;
 
-
-    const book = books.find(b => b.id === id);
-    if (!book) return res.status(404).json({ error: "Book not found" });
-    res.json(book);
-}
-
-exports.addBook = function(req, res)  {
-    const { book_name, book_author } = req.body;
-    if (!book_name || !book_author) {
-        return res.status(400).json({ error: "book_name and book_author are required" });
+    if (!isUuid(id)) {
+      return res.status(400).json({ error: "Invalid UUID format" });
     }
-    const newBook = {
-        id: books.length + 1,
-        book_name,
-        book_author
-    };
-    books.push(newBook);
-    res.status(201).json(newBook);
+
+    const book = await db.select().from(books).where((books.id,id)).limit(1);
+    if (book.length===0) return res.status(404).json({ error: "Book not found" });
+    res.json(book);
+    }
+    catch(err){
+        res.status(500).json({ error: "Internal Server Error",err:err  });
+    }
 }
 
-exports.deleteBook = function(req, res) {
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ error: "Invalid book ID" });   
-    const bookIndex = books.findIndex(b => b.id === id);
-    if (bookIndex === -1) return res.status(404).json({ error: "Book not found" });
-    const deletedBook = books.splice(bookIndex, 1);
-    res.json(deletedBook[0]);
+exports.addBook = async function(req, res)  {
+    try{
+
+        const { title, description ,authorId } = req.body;
+        if (!title || title===""||!authorId || authorId==="") {
+            return res.status(400).json({ error: "title and author are required" });
+        }
+        const [result] = await db.insert(books).values({
+            title,
+            description,    
+            authorId
+        }).returning({id:books.id});
+        
+    
+        res.status(201).json({message:"Book added successfully", book: result.id});
+    }
+    catch(err){
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+exports.deleteBook = async function(req, res) {
+    try{
+    const id = req.params.id;
+
+    if (!isUuid(id)) {  
+        return res.status(400).json({ error: "Invalid UUID" });
+    }
+    
+    const [result] = await db.delete(books).where(eq(books.id,id)).returning({id:books.id});
+    if (!result) {
+        return res.status(404).json({ error: "Book not found" });
+    }
+    res.json({ message: "Book deleted successfully", book_id: result.id });
+    }
+    catch(err){
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 }

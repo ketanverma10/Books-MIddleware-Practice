@@ -7,6 +7,7 @@ app.use(express.json());
 app.use(loggermiddleware);
 // books routes
 app.use('/books', require('./Routes/books.routes'));
+app.use('/authors', require('./Routes/author.routes'));
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
